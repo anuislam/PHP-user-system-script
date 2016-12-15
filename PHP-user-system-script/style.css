@@ -1,0 +1,28 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+html, body{
+	height: 100%;
+	position: relative;
+}
+.main_content{
+	min-height: 100%;
+}
+.main_content .row{
+	padding-top: 80px;
+}
+.main_footer{
+	background-color: #2a2730;
+	color: #fff;
+}
+.main_footer a:hover{
+	color: #fff;
+}
+.main_footer a{
+	color: #fff;
+}
+.main_footer p{	
+	padding: 60px 0;
+	margin: 0;
+}
