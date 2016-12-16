@@ -15,12 +15,16 @@ require_once(__DIR__.'/header.php');
 			$error = 'Invalid username.';
 		}else if(as_match( '/\\s/', $username) == true){
 			$error = 'Your username must not contain spaces.';
+		}else if ($asdb->as_get_return_val('user', 'username', array('username' => $username)) === false) {
+			$error = 'Username does not exist.';
 		}else if (as_match( '/\\s/', $password) == true) {
 			$error = 'Your Password must not contain spaces.';
 		}else if (strlen($password) < 6) {
 			$error = 'Your password must be at least 6 characters long.';
 		}else if ($asdb->as_get_return_val('user', 'username', array('username' => $username, 'password' => md5($password))) === false) {
-			$error = 'Username and Password does not exist.';
+			$error = 'Username and Password does not match.';
+		}else if ($asdb->as_get_return_val('user', 'active', array('username' => $username, 'password' => md5($password), 'active' => 1)) === false) {
+			$error = 'This "'.$username.'" user dose not active.';
 		}else{
 			// set session
 			$udata = $asdb->as_get_return_val('user', array('id', 'username'), array('username' => $username, 'password' => md5($password)));
@@ -29,13 +33,15 @@ require_once(__DIR__.'/header.php');
 			$_SESSION['key'] = 'ojdosjsodsd54sd5s45d45s4w8e88we8we78s4ds4d';
 			if ($checkbox === true) {
 				// set coocke
-
-
+				$login_value 	= $udata['id'];
+				$name_value 	= $udata['username'];
+				setcookie('login_id', $login_value, time() + (86400 * 30), "/"); // 86400 = 1 day
+				setcookie('login_name', $name_value, time() + (86400 * 30), "/"); // 86400 = 1 day
 			}
 			//redirect url
+			header("location: index.php");
 		}
 	}
-print_r($_SESSION['login_data']);
 ?>
 
 <nav class="navbar navbar-default">
