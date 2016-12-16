@@ -17,17 +17,18 @@ function as_set_valut($name){
 	}
 }
 
-function as_required($data){
-	$data = trim($data);
-	if (empty($data) === true) {
-		 return false;
-	}else{
-		return true;
-	}
-}
-
 function as_match($regex, $str) {
     return (preg_match($regex,$str))? true: false;
+}
+
+function is_logged_in (){
+	if (isset($_COOKIE['login_id']) || isset($_COOKIE['login_name'])) {
+		return true;
+	}else if (isset($_SESSION['login_id']) || isset($_SESSION['login_name'])) {
+		return true;
+	}else{
+		return false;
+	}
 }
 
 

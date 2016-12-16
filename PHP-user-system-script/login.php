@@ -4,20 +4,19 @@
 require_once(__DIR__.'/header.php');
 	if (empty($_POST) === false) {
 		$username 	= trim($_POST['as_username']);
-		$username 	= filter_var($username, FILTER_SANITIZE_STRING);
 		$password 	= trim($_POST['as_password']);
 		$checkbox 	= (isset($_POST['as_checkbox']) === true)? true : false;
 		if (empty($username) === true) {
 			$error = 'Username cannot be empty.';
 		}else if(empty($password) === true){
 			$error = 'Password cannot be empty.';
-		}else if(as_match( '/^[A-Za-z0-9 ]+$/i', $username) == false){
+		}else if(as_match( '/^[A-Za-z0-9 ]+$/i', $username) === false){
 			$error = 'Invalid username.';
-		}else if(as_match( '/\\s/', $username) == true){
+		}else if(as_match( '/\\s/', $username) === true){
 			$error = 'Your username must not contain spaces.';
 		}else if ($asdb->as_get_return_val('user', 'username', array('username' => $username)) === false) {
 			$error = 'Username does not exist.';
-		}else if (as_match( '/\\s/', $password) == true) {
+		}else if (as_match( '/\\s/', $password) === true) {
 			$error = 'Your Password must not contain spaces.';
 		}else if (strlen($password) < 6) {
 			$error = 'Your password must be at least 6 characters long.';
@@ -39,7 +38,7 @@ require_once(__DIR__.'/header.php');
 				setcookie('login_name', $name_value, time() + (86400 * 30), "/"); // 86400 = 1 day
 			}
 			//redirect url
-			header("location: index.php");
+			header('location: '.site_url.'index.php');
 		}
 	}
 ?>
@@ -100,7 +99,7 @@ if (empty($error) === false) {
 <div class="container main_content">
 	<div class="row">
 		<div class="col-sm-6 col-sm-offset-3">
-			<form action="#" method="post">
+			<form action="<?php echo  site_url.'login.php'; ?>" method="post">
 			  <div class="form-group">
 			    <label for="asusername">Username</label>
 			    <?php
